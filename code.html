@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batatelis - Batatas Recheadas Deliciosas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B35',
+                        secondary: '#FFA500',
+                        accent: '#8B4513',
+                        light: '#FFF8E1',
+                        dark: '#4A2C2A'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #FF6B35 0%, #FFA500 100%);
+        }
+        
+        .food-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .flavor-option {
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .flavor-option.selected {
+            border-color: #FF6B35;
+            background-color: #FFF8E1;
+        }
+        
+        .checkbox-custom {
+            display: none;
+        }
+        
+        .checkbox-custom + label {
+            cursor: pointer;
+            padding: 12px 20px;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox-custom:checked + label {
+            border-color: #FF6B35;
+            background-color: #FFF8E1;
+            transform: scale(1.05);
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        
+        .order-summary-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 0;
+        }
+        
+        .order-summary-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
+                        <span class="text-primary font-bold text-xl">B</span>
+                    </div>
+                    <h1 class="text-2xl font-bold">BATATELIS</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#home" class="hover:text-yellow-200 transition">Início</a>
+                    <a href="#menu" class="hover:text-yellow-200 transition">Cardápio</a>
+                    <a href="#order" class="hover:text-yellow-200 transition">Fazer Pedido</a>
+                    <a href="#about" class="hover:text-yellow-200 transition">Sobre</a>
+                </nav>
+                <div class="md:hidden">
+                    <button class="text-white text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative overflow-hidden">
+        <div class="gradient-bg py-20">
+            <div class="container mx-auto px-4 text-center text-white">
+                <h2 class="text-4xl md:text-6xl font-bold mb-6">BATATAS RECHEADAS <br>INCRÍVEIS</h2>
+                <p class="text-xl mb-8">Descubra o sabor que vai conquistar seu paladar!</p>
+                <button onclick="scrollToOrder()" class="bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
+                    FAZER PEDIDO AGORA
+                </button>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0L1440 0V120C1440 120 1152 120 720 120C288 120 0 120 0 120V0Z" fill="#FFF8E1"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-light">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-dark mb-12">NOSSO CARDÁPIO</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="food-card bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="food-image mb-4 rounded-xl overflow-hidden">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d28a77bf-d81f-4b70-8102-17e7940862f2.png" alt="Batata recheada com frango desfiado, queijo derretido e ervas frescas, servida em prato de cerâmica" class="w-full h-48 object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">Batata Frango Supreme</h3>
+                    <p class="text-gray-600 mb-4">Frango desfiado, queijo cheddar, milho e nosso molho especial</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-primary">R$ 25,90</span>
+                        <button onclick="selectPreMade('Frango Supreme')" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition">Pedir</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="food-card bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="food-image mb-4 rounded-xl overflow-hidden">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a8861a34-c809-4da5-a39c-af9dee88096b.png" alt="Batata recheada com carne moída temperada, queijo prato e cebola caramelizada" class="w-full h-48 object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">Batata Carnes</h3>
+                    <p class="text-gray-600 mb-4">Carne moída especial, queijo prato, bacon e cebola caramelizada</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-primary">R$ 28,90</span>
+                        <button onclick="selectPreMade('Carnes')" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition">Pedir</button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="food-card bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="food-image mb-4 rounded-xl overflow-hidden">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/728966df-1044-4ea2-a093-9a2b8e8171d4.png" alt="Batata recheada vegetariana com legumes frescos, queijo branco e temperos verdes" class="w-full h-48 object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">Batata Vegetariana</h3>
+                    <p class="text-gray-600 mb-4">Mix de legumes, queijo branco, tomate seco e manjericão</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-primary">R$ 22,90</span>
+                        <button onclick="selectPreMade('Vegetariana')" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition">Pedir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-dark mb-12">MONTE SUA BATATA</h2>
+            
+            <!-- Progress Steps -->
+            <div class="max-w-2xl mx-auto mb-12">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold">1</div>
+                        <span class="text-sm font-medium text-dark">Escolha</span>
+                    </div>
+                    <div class="h-1 bg-gray-300 flex-1 mx-4">
+                        <div class="h-full bg-primary progress-bar" style="width: 33%"></div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold">2</div>
+                        <span class="text-sm font-medium text-gray-500">Entrega</span>
+                    </div>
+                    <div class="h-1 bg-gray-300 flex-1 mx-4"></div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-gray-300 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold">3</div>
+                        <span class="text-sm font-medium text-gray-500">Confirmar</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Form -->
+            <form id="orderForm" class="max-w-2xl mx-auto">
+                <!-- Step 1: Choose Options -->
+                <div id="step1">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-dark mb-4">Tamanho</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="radio" name="size" id="sizeP" value="Pequena" data-price="15" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="sizeP" class="flavor-option text-center cursor-pointer">
+                                <div class="font-bold text-lg">Pequena</div>
+                                <div class="text-primary font-semibold">R$ 15,00</div>
+                            </label>
+
+                            <input type="radio" name="size" id="sizeM" value="Média" data-price="20" class="checkbox-custom" onchange="updatePrice()" checked>
+                            <label for="sizeM" class="flavor-option text-center cursor-pointer">
+                                <div class="font-bold text-lg">Média</div>
+                                <div class="text-primary font-semibold">R$ 20,00</div>
+                            </label>
+
+                            <input type="radio" name="size" id="sizeG" value="Grande" data-price="25" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="sizeG" class="flavor-option text-center cursor-pointer">
+                                <div class="font-bold text-lg">Grande</div>
+                                <div class="text-primary font-semibold">R$ 25,00</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-dark mb-4">Recheios Principais</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <input type="checkbox" name="fillings" id="filling1" value="Frango" data-price="5" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="filling1" class="cursor-pointer">Frango (+R$ 5,00)</label>
+
+                            <input type="checkbox" name="fillings" id="filling2" value="Carne" data-price="6" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="filling2" class="cursor-pointer">Carne (+R$ 6,00)</label>
+
+                            <input type="checkbox" name="fillings" id="filling3" value="Calabresa" data-price="5" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="filling3" class="cursor-pointer">Calabresa (+R$ 5,00)</label>
+
+                            <input type="checkbox" name="fillings" id="filling4" value="Vegetariano" data-price="4" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="filling4" class="cursor-pointer">Vegetariano (+R$ 4,00)</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-dark mb-4">Extras</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <input type="checkbox" name="extras" id="extra1" value="Queijo" data-price="3" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="extra1" class="cursor-pointer">Queijo Extra (+R$ 3,00)</label>
+
+                            <input type="checkbox" name="extras" id="extra2" value="Bacon" data-price="4" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="extra2" class="cursor-pointer">Bacon (+R$ 4,00)</label>
+
+                            <input type="checkbox" name="extras" id="extra3" value="Catupiry" data-price="3" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="extra3" class="cursor-pointer">Catupiry (+R$ 3,00)</label>
+
+                            <input type="checkbox" name="extras" id="extra4" value="Cheddar" data-price="3" class="checkbox-custom" onchange="updatePrice()">
+                            <label for="extra4" class="cursor-pointer">Cheddar (+R$ 3,00)</label>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="button" onclick="nextStep()" class="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-secondary transition">
+                            Continuar para Entrega
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Delivery Info -->
+                <div id="step2" class="hidden">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-bold text-dark mb-6">Informações de Entrega</h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-dark font-medium mb-2">Nome completo *</label>
+                                <input type="text" id="customerName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+
+                            <div>
+                                <label class="block text-dark font-medium mb-2">Telefone *</label>
+                                <input type="tel" id="customerPhone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="(11) 99999-9999">
+                            </div>
+
+                            <div>
+                                <label class="block text-dark font-medium mb-2">Endereço completo *</label>
+                                <textarea id="customerAddress" required rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Rua, número, bairro, complemento..."></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-dark font-medium mb-2">Observações</label>
+                                <textarea id="customerNotes" rows="2" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Alguma observação importante?"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-dark font-medium mb-2">Forma de Pagamento *</label>
+                                <select id="paymentMethod" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    <option value="">Selecione...</option>
+                                    <option value="Dinheiro">Dinheiro na entrega</option>
+                                    <option value="Cartão">Cartão na entrega</option>
+                                    <option value="Pix">Pix (antecipado)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button type="button" onclick="prevStep()" class="flex-1 bg-gray-300 text-dark px-6 py-3 rounded-lg font-medium hover:bg-gray-400 transition">
+                            Voltar
+                        </button>
+                        <button type="button" onclick="nextStep()" class="flex-1 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary transition">
+                            Ver Resumo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Order Summary -->
+                <div id="step3" class="hidden">
+                    <h3 class="text-2xl font-bold text-dark mb-6">Confirme seu Pedido</h3>
+                    
+                    <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                        <div class="order-summary-item">
+                            <strong>Tamanho:</strong> <span id="summary-size"></span>
+                        </div>
+                        <div class="order-summary-item">
+                            <strong>Recheios:</strong> <span id="summary-fillings"></span>
+                        </div>
+                        <div class="order-summary-item">
+                            <strong>Extras:</strong> <span id="summary-extras"></span>
+                        </div>
+                        <div class="order-summary-item">
+                            <strong>Nome:</strong> <span id="summary-name"></span>
+                        </div>
+                        <div class="order-summary-item">
+                            <strong>Telefone:</strong> <span id="summary-phone"></span>
+                        </div>
+                        <div class="order-summary-item">
+                            <strong>Endereço:</strong> <span id="summary-address"></span>
+                        </div>
+                        <div class="order-summary-item">
+                            <strong>Pagamento:</strong> <span id="summary-payment"></span>
+                        </div>
+                        <div class="order-summary-item">
+                            <strong>Observações:</strong> <span id="summary-notes"></span>
+                        </div>
+                        <div class="pt-4 border-t-2 border-primary">
+                            <strong class="text-2xl text-primary">Total: R$ <span id="summary-total">0,00</span></strong>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button type="button" onclick="prevStep()" class="flex-1 bg-gray-300 text-dark px-6 py-3 rounded-lg font-medium hover:bg-gray-400 transition">
+                            Voltar
+                        </button>
+                        <button type="button" onclick="sendWhatsAppOrder()" class="flex-1 bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition">
+                            <i class="fab fa-whatsapp mr-2"></i> Enviar por WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mb-6">SOBRE A BATATELIS</h2>
+                <p class="text-lg text-gray-700 mb-8">
+                    Na Batatelis, transformamos a humilde batata em uma experiência gastronômica extraordinária. 
+                    Cada batata é cuidadosamente selecionada e preparada com ingredientes frescos e de qualidade, 
+                    criando combinações de sabores que vão surpreender seu paladar.
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-heart text-white text-2xl"></i>
+                        </div>
+                        <span class="font-medium">Feito com amor</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-leaf text-white text-2xl"></i>
+                        </div>
+                        <span class="font-medium">Ingredientes frescos</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-truck text-white text-2xl"></i>
+                        </div>
+                        <span class="font-medium">Entrega rápida</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">BATATELIS</h3>
+                    <p class="text-gray-300">O sabor que conquista!</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contato</h4>
+                    <p class="text-gray-300 mb-2"><i class="fas fa-phone mr-2"></i> (11) 99999-9999</p>
+                    <p class="text-gray-300"><i class="fas fa-envelope mr-2"></i> contato@batatelis.com</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Redes Sociais</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/batatelis._?igsh=MW1oa2l6djRuNWl1aw==" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-instagram text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-whatsapp text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-facebook text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2024 Batatelis. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentStep = 1;
+        let totalPrice = 20; // Preço inicial da batata média
+
+        function scrollToOrder() {
+            document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updatePrice() {
+            totalPrice = 0;
+            
+            // Preço do tamanho
+            const selectedSize = document.querySelector('input[name="size"]:checked');
+            if (selectedSize) {
+                totalPrice += parseFloat(selectedSize.dataset.price);
+            }
+            
+            // Preço dos recheios
+            document.querySelectorAll('input[name="fillings"]:checked').forEach(item => {
+                totalPrice += parseFloat(item.dataset.price);
+            });
+            
+            // Preço dos extras
+            document.querySelectorAll('input[name="extras"]:checked').forEach(item => {
+                totalPrice += parseFloat(item.dataset.price);
+            });
+            
+            // Atualiza o preço nos botões e resumo
+            document.querySelectorAll('.price-display').forEach(el => {
+                el.textContent = totalPrice.toFixed(2).replace('.', ',');
+            });
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                const selectedSize = document.querySelector('input[name="size"]:checked');
+                if (!selectedSize) {
+                    alert('Por favor, selecione um tamanho para sua batata.');
+                    return;
+                }
+                
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                document.querySelector('.progress-bar').style.width = '66%';
+                currentStep = 2;
+                
+            } else if (currentStep === 2) {
+                // Validação dos dados de entrega
+                const name = document.getElementById('customerName').value.trim();
+                const phone = document.getElementById('customerPhone').value.trim();
+                const address = document.getElementById('customerAddress').value.trim();
+                const payment = document.getElementById('paymentMethod').value;
+                
+                if (!name || !phone || !address || !payment) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+                
+                // Preencher resumo
+                document.getElementById('summary-size').textContent = document.querySelector('input[name="size"]:checked').value;
+                
+                const fillings = Array.from(document.querySelectorAll('input[name="fillings"]:checked')).map(f => f.value);
+                document.getElementById('summary-fillings').textContent = fillings.length > 0 ? fillings.join(', ') : 'Nenhum';
+                
+                const extras = Array.from(document.querySelectorAll('input[name="extras"]:checked')).map(e => e.value);
+                document.getElementById('summary-extras').textContent = extras.length > 0 ? extras.join(', ') : 'Nenhum';
+                
+                document.getElementById('summary-name').textContent = name;
+                document.getElementById('summary-phone').textContent = phone;
+                document.getElementById('summary-address').textContent = address;
+                document.getElementById('summary-payment').textContent = payment;
+                document.getElementById('summary-notes').textContent = document.getElementById('customerNotes').value.trim() || 'Nenhuma';
+                document.getElementById('summary-total').textContent = totalPrice.toFixed(2).replace('.', ',');
+                
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step3').classList.remove('hidden');
+                document.querySelector('.progress-bar').style.width = '100%';
+                currentStep = 3;
+            }
+        }
+
+        function prevStep() {
+            if (currentStep === 2) {
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step1').classList.remove('hidden');
+                document.querySelector('.progress-bar').style.width = '33%';
+                currentStep = 1;
+            } else if (currentStep === 3) {
+                document.getElementById('step3').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                document.querySelector('.progress-bar').style.width = '66%';
+                currentStep = 2;
+            }
+        }
+
+        function selectPreMade(flavor) {
+            // Reset seleções
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            
+            // Seleciona tamanho médio por padrão
+            document.getElementById('sizeM').checked = true;
+            
+            // Seleciona recheios baseado no sabor pré-definido
+            if (flavor === 'Frango Supreme') {
+                document.getElementById('filling1').checked = true;
+                document.getElementById('extra1').checked = true;
+            } else if (flavor === 'Carnes') {
+                document.getElementById('filling2').checked = true;
+                document.getElementById('extra2').checked = true;
+            } else if (flavor === 'Vegetariana') {
+                document.getElementById('filling4').checked = true;
+            }
+            
+            updatePrice();
+            scrollToOrder();
+        }
+
+        function sendWhatsAppOrder() {
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
+            const payment = document.getElementById('paymentMethod').value;
+            const notes = document.getElementById('customerNotes').value.trim();
+            
+            let message = `*🍟 PEDIDO BATATELIS 🍟*\n\n`;
+            message += `*Cliente:* ${name}\n`;
+            message += `*Telefone:* ${phone}\n`;
+            message += `*Endereço:* ${address}\n\n`;
+            
+            message += `*PEDIDO:*\n`;
+            message += `• Tamanho: ${document.querySelector('input[name="size"]:checked').value}\n`;
+            
+            const fillings = Array.from(document.querySelectorAll('input[name="fillings"]:checked')).map(f => f.value);
+            message += `• Recheios: ${fillings.length > 0 ? fillings.join(', ') : 'Nenhum'}\n`;
+            
+            const extras = Array.from(document.querySelectorAll('input[name="extras"]:checked')).map(e => e.value);
+            message += `• Extras: ${extras.length > 0 ? extras.join(', ') : 'Nenhum'}\n\n`;
+            
+            message += `*Pagamento:* ${payment}\n`;
+            message += `*Total:* R$ ${totalPrice.toFixed(2).replace('.', ',')}\n`;
+            
+            if (notes) {
+                message += `*Observações:* ${notes}\n`;
+            }
+            
+            message += `\nPor favor, confirme o pedido!`;
+            
+            // Número do WhatsApp da Batatelis (substitua pelo número real)
+            const whatsappNumber = '5511999999999'; // Formato: 55 + DDD + número
+            
+            const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePrice();
+            
+            // Adicionar displays de preço dinâmico
+            const priceDisplays = document.querySelectorAll('.price-display');
+            priceDisplays.forEach(el => {
+                el.textContent = totalPrice.toFixed(2).replace('.', ',');
+            });
+        });
+    </script>
+</body>
+</html>
+
